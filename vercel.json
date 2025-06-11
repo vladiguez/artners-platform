@@ -32,11 +32,4 @@
       ]
     }
   ],
-  "functions": {
-    "api/**.ts": {
-      "runtime": "nodejs@18.x",
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  }
 }

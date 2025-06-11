@@ -21,7 +21,6 @@ const { connectors } = getDefaultWallets({
 });
 
 const wagmiConfig = createConfig({
-  autoConnect: true,
   connectors,
   chains,
   transports: chains.reduce(

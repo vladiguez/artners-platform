@@ -22,7 +22,7 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "viem": "^2.31.0",
-    "wagmi": "2.9.0"
+    "wagmi": "^2.15.6"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.8",
@@ -34,6 +34,12 @@
     "postcss": "^8.5.4",
     "tailwindcss": "^4.1.8",
     "typescript": "^5"
+  },
+  "overrides": {
+    "react": "$react",
+    "react-dom": "$react-dom",
+    "@types/react": "$@types/react",
+    "@types/react-dom": "$@types/react-dom"
   },
   "description": "This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).",
   "main": "index.js",

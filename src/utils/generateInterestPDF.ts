@@ -1,4 +1,5 @@
 // src/utils/generateInterestPDF.ts
+'use client';
 import jsPDF from "jspdf";
 
 export function generateInterestPDF(walletAddress: string, artworkId?: string) {

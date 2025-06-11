@@ -1,4 +1,5 @@
 // utils/saveArtwork.ts
+'use client';
 import { collection, addDoc, doc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase'; // Adjust this path to your Firebase db instance
 

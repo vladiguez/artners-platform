@@ -5,36 +5,34 @@
 import React, { useEffect, useState } from 'react';
 import {
   RainbowKitProvider,
-  getDefaultWallets, // Gardez celui-ci
+  getDefaultWallets,
   darkTheme,
 } from '@rainbow-me/rainbowkit';
-import { WagmiConfig, createConfig } from 'wagmi'; // Gardez ceux-ci
-import { mainnet, polygon, optimism, arbitrum } from 'wagmi/chains'; // Gardez ceux-ci
-import { http } from 'viem';
+import { WagmiConfig, createConfig } from 'wagmi';
+import { mainnet, polygon, optimism, arbitrum } from 'wagmi/chains';
+import { http, type Transport } from 'viem'; // <-- Import 'type Transport' from viem
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-// 1. Define your chains
 const chains = [mainnet, polygon, optimism, arbitrum] as const;
 
-// 2. Get default connectors for RainbowKit
 const { connectors } = getDefaultWallets({
   appName: 'Artners',
-  projectId: 'artners-demo',
-  // SUPPRIMEZ LA LIGNE 'chains,' ICI
+  projectId: 'artners_demo', // Assurez-vous que c'est le bon ID
 });
 
-// 3. Create the wagmi config
 const wagmiConfig = createConfig({
   autoConnect: true,
-  connectors, // Ici les connecteurs sont utilisés
-  chains,     // Ici les chaînes sont utilisées (c'est correct)
-  transports: chains.reduce((obj, chain) => {
-    obj[chain.id] = http();
-    return obj;
-  }, {}),
+  connectors,
+  chains,
+  transports: chains.reduce(
+    (obj, chain) => {
+      obj[chain.id] = http();
+      return obj;
+    },
+    {} as Record<number, Transport> // <-- MODIFICATION MAJEURE ICI : Type assertion
+  ),
 });
 
-// Create a QueryClient instance for @tanstack/react-query
 const queryClient = new QueryClient();
 
 export function WalletProvider({ children }: { children: React.ReactNode }) {
@@ -51,7 +49,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <WagmiConfig config={wagmiConfig}>
-        <RainbowKitProvider chains={chains} theme={darkTheme()}> {/* Ici les chaînes sont utilisées (c'est correct) */}
+        <RainbowKitProvider chains={chains} theme={darkTheme()}>
           {children}
         </RainbowKitProvider>
       </WagmiConfig>

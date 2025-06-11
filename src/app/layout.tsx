@@ -1,28 +1,21 @@
-// 4. src/app/layout.tsx — Intégration de WalletProvider dans l'app
+// src/app/layout.tsx
+import "./globals.css";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { WalletProvider } from "@/providers/wallet-provider";
 
-import './globals.css';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import { WalletProvider } from '@/providers/wallet-provider';
-
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Artners',
-  description: 'Investissez dans l’art tokenisé',
+  title: "Artners Platform",
+  description: "Investir dans l’art contemporain",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
       <body className={inter.className}>
-        <WalletProvider>
-          {children}
-        </WalletProvider>
+        <WalletProvider>{children}</WalletProvider>
       </body>
     </html>
   );

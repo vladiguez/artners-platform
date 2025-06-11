@@ -14,7 +14,7 @@ import { http } from 'viem';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 // 1. Define your chains
-const chains = [mainnet, polygon, optimism, arbitrum];
+const chains = [mainnet, polygon, optimism, arbitrum] as const;
 
 // 2. Get default connectors for RainbowKit
 const { connectors } = getDefaultWallets({

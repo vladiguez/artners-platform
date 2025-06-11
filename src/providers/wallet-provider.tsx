@@ -1,15 +1,15 @@
-// 3. src/providers/wallet-provider.tsx — Fournisseur global RainbowKit/wagmi
+// src/providers/wallet-provider.tsx
 
-'use client'; // This directive is necessary for client-side components
+'use client';
 
-import React, { useEffect, useState } from 'react'; // Import useEffect and useState
+import React, { useEffect, useState } from 'react';
 import {
   RainbowKitProvider,
-  getDefaultWallets,
+  getDefaultWallets, // Gardez celui-ci
   darkTheme,
 } from '@rainbow-me/rainbowkit';
-import { WagmiConfig, createConfig } from 'wagmi';
-import { mainnet, polygon, optimism, arbitrum } from 'wagmi/chains';
+import { WagmiConfig, createConfig } from 'wagmi'; // Gardez ceux-ci
+import { mainnet, polygon, optimism, arbitrum } from 'wagmi/chains'; // Gardez ceux-ci
 import { http } from 'viem';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -20,14 +20,14 @@ const chains = [mainnet, polygon, optimism, arbitrum];
 const { connectors } = getDefaultWallets({
   appName: 'Artners',
   projectId: 'artners-demo',
-  chains,
+  // SUPPRIMEZ LA LIGNE 'chains,' ICI
 });
 
 // 3. Create the wagmi config
 const wagmiConfig = createConfig({
   autoConnect: true,
-  connectors,
-  chains,
+  connectors, // Ici les connecteurs sont utilisés
+  chains,     // Ici les chaînes sont utilisées (c'est correct)
   transports: chains.reduce((obj, chain) => {
     obj[chain.id] = http();
     return obj;
@@ -37,27 +37,21 @@ const wagmiConfig = createConfig({
 // Create a QueryClient instance for @tanstack/react-query
 const queryClient = new QueryClient();
 
-// WalletProvider component
 export function WalletProvider({ children }: { children: React.ReactNode }) {
-  // Use state to track if the component has mounted on the client-side
   const [mounted, setMounted] = useState(false);
 
-  // Set mounted to true after the component mounts
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // If not mounted (meaning still during SSR or initial render on server), return null
-  // This prevents any client-side specific code (like indexedDB) from running on the server
   if (!mounted) {
-    return null; // You could also return a loading spinner or placeholder here
+    return null;
   }
 
-  // Once mounted on the client, render the providers
   return (
     <QueryClientProvider client={queryClient}>
       <WagmiConfig config={wagmiConfig}>
-        <RainbowKitProvider chains={chains} theme={darkTheme()}>
+        <RainbowKitProvider chains={chains} theme={darkTheme()}> {/* Ici les chaînes sont utilisées (c'est correct) */}
           {children}
         </RainbowKitProvider>
       </WagmiConfig>
